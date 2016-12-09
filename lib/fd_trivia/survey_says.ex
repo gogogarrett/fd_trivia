@@ -70,6 +70,35 @@ defmodule FdTrivia.FetchFlowUsers do
   end
 end
 
+defmodule FdTrivia.UI.Leaderboard do
+  @trophy "🏆"
+  @flag "🏁"
+
+  def print(%{scores: scores, players: players} = state) do
+    [
+      symbol_bar(@trophy),
+      symbol_bar(@flag),
+      players_scores(players, scores),
+    ]
+    |> Enum.join("\n")
+  end
+
+  defp symbol_bar(symbol), do: (1..10) |> Enum.map(fn(_) -> symbol end) |> Enum.join
+
+  defp players_scores(players, scores) do
+    players
+    |> Enum.flat_map(fn(player) ->
+      player_score(player, scores)
+    end)
+    |> Enum.join("\n")
+  end
+
+  defp player_score(%{"nick" => nick, "id" => player_id}, scores) do
+    player_score = scores[player_id]
+    [":space_invader:#{nick}:arrow_forward:#{player_score}:sparkles:"]
+  end
+end
+
 defmodule FdTrivia.SurveySays do
   use GenServer
 
@@ -83,13 +112,17 @@ defmodule FdTrivia.SurveySays do
     ScoreBoard,
     FetchFlowUsers,
   }
+  alias FdTrivia.UI.{
+    Leaderboard
+  }
 
   def start_link, do: GenServer.start_link(__MODULE__, @flow_name, name: __MODULE__)
   def handle_flowdock_message(msg), do: GenServer.cast(__MODULE__, msg)
 
   def init(flow_name) do
-    :timer.send_interval(@question_interval, :send_question)
+    :timer.send_after(1_000, :send_welcome_message)
     :timer.send_interval(@update_user_interval, :update_user_list)
+    :timer.send_interval(@question_interval, :send_question)
 
     state = %{
       current_question: Bank.next_question,
@@ -123,6 +156,11 @@ defmodule FdTrivia.SurveySays do
     {:noreply, new_state}
   end
 
+  def handle_info(:send_welcome_message, state) do
+    send_message(state.flow, "bot: Welcome to Trivia!")
+    {:noreply, state}
+  end
+
   def handle_cast(_, state), do: {:noreply, state}
 
   defp send_message(flow_name, message), do: FlowdockClient.Sender.send_message(flow_name, message)
@@ -136,21 +174,14 @@ defmodule FdTrivia.SurveySays do
 
   # Logic to handle each message Type
 
-  # move to UI display module
   defp print_leaderboard(state) do
-    score_message =
-      state.players
-      |> Enum.map(fn(player) ->
-        "User: #{player["nick"]} has #{state.scores[player["id"]]}"
-      end)
-      |> Enum.join("\n")
-
-    send_message(state.flow, "bot: #{score_message}")
+    score_message = Leaderboard.print(state)
+    send_message(state.flow, "bot:\n#{score_message}")
   end
 
   defp process_answer(question, content, user, state) do
     if GrantDenyer.correct_answer?(question, content) do
-      send_message(state.flow, "bot: Good job!")
+      send_message(state.flow, "bot:exclamation: Good job!")
 
       %{state |
         current_question: Bank.next_question,
