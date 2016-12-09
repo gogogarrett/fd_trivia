@@ -48,6 +48,8 @@ defmodule FdTrivia.SurveySays do
     end
   end
 
+  def handle_cast(_, state), do: {:noreply, state}
+
   def handle_info(:send_question, %{current_question: {question, _answer}} = state) do
     send_message(state.flow, Bot.question(question))
     {:noreply, state}
@@ -63,7 +65,7 @@ defmodule FdTrivia.SurveySays do
     {:noreply, state}
   end
 
-  def handle_cast(_, state), do: {:noreply, state}
+  def handle_info(_, state), do: {:noreply, state}
 
   defp send_message(flow_name, message), do: FlowdockClient.Sender.send_message(flow_name, message)
 
