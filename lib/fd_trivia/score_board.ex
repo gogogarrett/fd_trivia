@@ -14,7 +14,7 @@ defmodule FdTrivia.ScoreBoard do
       > %{1: 3}
 
       iex> update(%{"1" => 2}, "5")
-      > %{1: 2, 5L 1}
+      > %{1: 2, 5: 1}
   """
   def update(scores, user_id) do
     user_id_int = String.to_integer(user_id)
