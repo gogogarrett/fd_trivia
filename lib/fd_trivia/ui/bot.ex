@@ -21,6 +21,6 @@ defmodule FdTrivia.UI.Bot do
   general purpose function to prepend `bot:` to a message
   """
   def message(message) do
-    "bot #{message}"
+    "bot: #{message}"
   end
 end
