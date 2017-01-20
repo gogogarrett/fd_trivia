@@ -10,7 +10,7 @@ defmodule FdTrivia.UI.Bot do
   end
 
   def question(question) do
-    "bot:question: #{question}"
+    "bot::question: #{question}"
   end
 
   def correct_answer do

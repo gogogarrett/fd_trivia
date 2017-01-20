@@ -4,7 +4,7 @@ defmodule FdTrivia.Mixfile do
   def project do
     [app: :fd_trivia,
      version: "0.1.0",
-     elixir: "~> 1.3",
+     elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps()]
@@ -29,7 +29,8 @@ defmodule FdTrivia.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:flowdock_client, path: "../flowdock_client"}
+      {:flowdock_client, path: "../flowdock_client"},
+      {:trivia_client, git: "git@github.com:wiserfirst/trivia_client.git"}
     ]
   end
 end
