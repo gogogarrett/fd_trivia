@@ -43,7 +43,6 @@ defmodule FdTrivia.SurveySays do
       bot_message?(content) ->
         {:noreply, state}
       true ->
-        state |> IO.inspect
         new_state = process_answer(question, content, user, state)
         {:noreply, new_state}
     end
