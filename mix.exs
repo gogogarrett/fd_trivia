@@ -30,7 +30,7 @@ defmodule FdTrivia.Mixfile do
   defp deps do
     [
       {:flowdock_client, path: "../flowdock_client"},
-      {:trivia_client, path: "../trivia_client"}
+      {:trivia_client, git: "git@github.com:wiserfirst/trivia_client.git"}
     ]
   end
 end

@@ -5,4 +5,5 @@
   "ibrowse": {:hex, :ibrowse, "4.2.2", "b32b5bafcc77b7277eff030ed32e1acc3f610c64e9f6aea19822abcadf681b4b", [:rebar3], []},
   "poison": {:hex, :poison, "3.0.0", "625ebd64d33ae2e65201c2c14d6c85c27cc8b68f2d0dd37828fde9c6920dd131", [:mix], []},
   "ranch": {:hex, :ranch, "1.1.0", "f7ed6d97db8c2a27cca85cacbd543558001fc5a355e93a7bff1e9a9065a8545b", [:make], []},
-  "shotgun": {:hex, :shotgun, "0.3.0", "54ea3c243b65a935a3491a079a573c9d119a5eaf28bc2673893f8eef66fdc053", [:rebar], [{:gun, "1.0.0-pre.1", [hex: :gun, optional: false]}]}}
+  "shotgun": {:hex, :shotgun, "0.3.0", "54ea3c243b65a935a3491a079a573c9d119a5eaf28bc2673893f8eef66fdc053", [:rebar], [{:gun, "1.0.0-pre.1", [hex: :gun, optional: false]}]},
+  "trivia_client": {:git, "git@github.com:wiserfirst/trivia_client.git", "a0afeec6cabed145bdf6c3d235a0dc2024cdd775", []}}
