@@ -10,6 +10,7 @@ defmodule FdTrivia do
     children = [
       # Starts a worker by calling: FdTrivia.Worker.start_link(arg1, arg2, arg3)
       worker(FlowdockClient.Listener, ["testttt"]),
+      worker(FdTrivia.Bank, []),
       worker(FdTrivia.SurveySays, []),
     ]
 
